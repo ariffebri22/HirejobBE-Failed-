@@ -2,6 +2,10 @@ const { createUser ,getUsersByEmail,activatedUser} = require('../model/UsersMode
 const argon2 = require('argon2');
 const {GenerateToken} = require('./../helper/GenereteToken');
 
+//email
+// const { v4: uuidv4 } = require("uuid");
+// const Email = require("./../midleware/Email");
+
 const AuthController = {
     register: async (req, res, next) => {
         let { email, password, username, phone,jabatan,perusahaan } = req.body

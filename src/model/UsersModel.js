@@ -26,5 +26,18 @@ const getUsersByEmail = async (email) => {
     )
 }
 
+// const activatedUser = async (uuid) => {
+//     console.log("model activate")
+//     return new Promise((resolve,reject)=>
+//         Pool.query(`UPDATE users SET is_active=true WHERE checker='${uuid}'`,(err,result)=>{
+//             if(!err){
+//                 resolve(result)
+//             } else{
+//                 reject(err)
+//             }
+//         })
+//     )
+// }
 
-module.exports =  {createUser,getUsersByEmail}
+
+module.exports =  {createUser,getUsersByEmail,activatedUser}

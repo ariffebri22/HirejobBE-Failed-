@@ -1,4 +1,4 @@
-const { createUser ,getUsersByEmail} = require('../model/UsersModel')
+const { createUser ,getUsersByEmail,activatedUser} = require('../model/UsersModel')
 const argon2 = require('argon2');
 const {GenerateToken} = require('./../helper/GenereteToken');
 
@@ -22,6 +22,7 @@ const AuthController = {
         // if (user.rows[0]) {
         //     return res.status(404).json({ "status": 404, "message": "email sudah terdaftar, silahkan login" })
         // }
+        
         //email
         // let uuid = uuidv4();
         // console.log("uuid", uuid);
@@ -83,6 +84,18 @@ const AuthController = {
 
         res.status(200).json({ "status": 200, "message": "get data profile success", users })
     }
+
+    //email
+    // verify: async (req, res, next) => {
+    //     const { id } = req.params;
+    //     let result = await activatedUser(id);
+    //     console.log("result");
+    //     console.log(result);
+    //     if (result) {
+    //       return res.status(200).json({ status: 200, message: "verify success silakan login" });
+    //     }
+    //     return res.status(404).json({ status: 404, message: "verify gagal harap coba lagi" });
+    //   }
 }
 
 module.exports = AuthController

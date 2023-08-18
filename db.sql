@@ -1,14 +1,5 @@
 -- Active: 1692248997743@@147.139.210.135@5432@kb02
 
--- auth
-CREATE TABLE
-    workers (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR (152) NOT NULL,
-        email VARCHAR (104) UNIQUE NOT NULL,
-        phone VARCHAR (24) NOT NULL,
-        password VARCHAR (104) NOT NULL
-    );
 
 -- profile
 CREATE TABLE

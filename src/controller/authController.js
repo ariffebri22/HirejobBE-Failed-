@@ -1,10 +1,12 @@
 const {
   getUserByEmail,
   createUser,
-  changePassword,
+  changePassword, activatedUser
 } = require("../model/authModel");
 const argon2 = require("argon2");
 const { GenerateToken } = require("../helper/generateToken");
+const { v4: uuidv4 } = require("uuid");
+const Email = require("./../middleware/email");
 
 const AuthController = {
   register: async (req, res, next) => {
@@ -26,26 +28,48 @@ const AuthController = {
       });
     }
 
+    //email
+    let uuid = uuidv4();
+    console.log("uuid", uuid);
+    //
+
     password = await argon2.hash(password);
 
     let dataUser = {
       username,
       email,
       phone,
-      password,
+      password, uuid,
     };
 
     let data = await createUser(dataUser);
     console.log("create");
     console.log(data);
 
+
     if (!data.rowCount == 1) {
       return res.status(404).json({ status: 404, message: "register failed" });
     }
 
-    return res
-      .status(200)
-      .json({ status: 200, message: "User registration successful", dataUser });
+    //email
+    let url = `${process.env.BASE_URL}/auth/verify/${uuid}`;
+    let sendEmail = Email(email, url, username);
+
+    console.log("sendEmail", sendEmail);
+    console.log(sendEmail);
+    //
+
+    return res.status(200).json({ "status": 200, "message": "register user berhasil,silahkan verifikasi Email" })
+  },
+  verify: async (req, res, next) => {
+    const { id } = req.params;
+    let result = await activatedUser(id);
+    console.log("result");
+    console.log(result);
+    if (result) {
+      return res.status(200).json({ status: 200, message: "verify success silakan login" });
+    }
+    return res.status(404).json({ status: 404, message: "verify gagal harap coba lagi" });
   },
 
   login: async (req, res, next) => {
@@ -79,6 +103,12 @@ const AuthController = {
     let token = GenerateToken(users);
     users.token = token;
 
+    if (!users.is_active) {
+      return res
+        .status(404)
+        .json({ status: 494, message: "email belum diaktivasi" });
+    }
+
     res
       .status(200)
       .json({ status: 200, message: "get data profile success", users });
@@ -111,7 +141,7 @@ const AuthController = {
         data,
         result,
       });
-  },
+  }
 };
 
 module.exports = AuthController;

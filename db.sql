@@ -1,4 +1,4 @@
--- Active: 1692248997743@@147.139.210.135@5432@kb02
+-- Active: 1690000069845@@147.139.210.135@5432@kb02
 
 -- auth
 CREATE TABLE
@@ -30,6 +30,9 @@ CREATE TABLE
         FOREIGN KEY (id_worker) REFERENCES workers(id),
         skills_name VARCHAR(256) NOT NULL
     );
+
+ALTER TABLE workers ADD COLUMN is_active BOOLEAN DEFAULT false;
+ALTER TABLE workers ADD COLUMN checker VARCHAR;
 
 
 

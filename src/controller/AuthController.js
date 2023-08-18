@@ -1,4 +1,4 @@
-const { createUser ,getUsersByEmail,activatedUser} = require('../model/UsersModel')
+const { createUser ,getUsersByEmail,activatedUser, changePassword} = require('../model/UsersModel')
 const argon2 = require('argon2');
 const {GenerateToken} = require('./../helper/GenereteToken');
 
@@ -87,7 +87,40 @@ const AuthController = {
         users.token = token
 
         res.status(200).json({ "status": 200, "message": "get data profile success", users })
-    }
+    },
+
+    changeData: async (req, res, next) => {
+        let { password } = req.body;
+        console.log("req.body");
+        console.log(req.body);
+    
+        let email = req.payload.email;
+        console.log(email)
+        let dataWorkerId = await getUsersByEmail(email);
+    
+        console.log("put data");
+        console.log(dataWorkerId.rows[0]);
+        console.log(password)
+    
+        password = await argon2.hash(password);
+    
+        let data = {
+          password: password || dataWorkerId.rows[0].password,
+        };
+
+        console.log(data)
+    
+        let result = await changePassword(email, data);
+        console.log(result);
+        return res
+          .status(200)
+          .json({
+            status: 200,
+            message: "update data worker success",
+            data,
+            result,
+          });
+      },
 
     //email
     // verify: async (req, res, next) => {

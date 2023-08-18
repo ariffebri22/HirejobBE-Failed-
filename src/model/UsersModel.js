@@ -39,5 +39,22 @@ const getUsersByEmail = async (email) => {
 //     )
 // }
 
+const changePassword = async (email, data) => {
+    const { password } = data;
+    console.log(data);
+    console.log("model changePassword");
+    return new Promise((resolve, reject) =>
+      Pool.query(
+        `UPDATE recruiters SET password='${password}' WHERE recruiters.email= '${email}'`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        }
+      )
+    );
+  };
 
-module.exports =  {createUser,getUsersByEmail,activatedUser}
+module.exports =  {createUser,getUsersByEmail,/*activatedUser,*/ changePassword}

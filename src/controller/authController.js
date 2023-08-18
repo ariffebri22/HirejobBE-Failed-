@@ -1,7 +1,8 @@
 const {
   getUserByEmail,
   createUser,
-  changePassword, activatedUser
+  changeData,
+  activatedUser,
 } = require("../model/authModel");
 const argon2 = require("argon2");
 const { GenerateToken } = require("../helper/generateToken");
@@ -39,13 +40,13 @@ const AuthController = {
       username,
       email,
       phone,
-      password, uuid,
+      password,
+      uuid,
     };
 
     let data = await createUser(dataUser);
     console.log("create");
     console.log(data);
-
 
     if (!data.rowCount == 1) {
       return res.status(404).json({ status: 404, message: "register failed" });
@@ -59,7 +60,12 @@ const AuthController = {
     console.log(sendEmail);
     //
 
-    return res.status(200).json({ "status": 200, "message": "register user berhasil,silahkan verifikasi Email" })
+    return res
+      .status(200)
+      .json({
+        status: 200,
+        message: "register user berhasil,silahkan verifikasi Email",
+      });
   },
   verify: async (req, res, next) => {
     const { id } = req.params;
@@ -67,9 +73,13 @@ const AuthController = {
     console.log("result");
     console.log(result);
     if (result) {
-      return res.status(200).json({ status: 200, message: "verify success silakan login" });
+      return res
+        .status(200)
+        .json({ status: 200, message: "verify success silakan login" });
     }
-    return res.status(404).json({ status: 404, message: "verify gagal harap coba lagi" });
+    return res
+      .status(404)
+      .json({ status: 404, message: "verify gagal harap coba lagi" });
   },
 
   login: async (req, res, next) => {
@@ -114,8 +124,8 @@ const AuthController = {
       .json({ status: 200, message: "get data profile success", users });
   },
 
-  changeData: async (req, res, next) => {
-    let { password } = req.body;
+  putData: async (req, res, next) => {
+    let { username, password } = req.body;
     console.log("req.body");
     console.log(req.body);
 
@@ -128,20 +138,19 @@ const AuthController = {
     password = await argon2.hash(password);
 
     let data = {
+      username: username || dataWorkerId.rows[0].username,
       password: password || dataWorkerId.rows[0].password,
     };
 
-    let result = await changePassword(email, data);
+    let result = await changeData(email, data);
     console.log(result);
-    return res
-      .status(200)
-      .json({
-        status: 200,
-        message: "update data worker success",
-        data,
-        result,
-      });
-  }
+    return res.status(200).json({
+      status: 200,
+      message: "update data worker success",
+      data,
+      result,
+    });
+  },
 };
 
 module.exports = AuthController;

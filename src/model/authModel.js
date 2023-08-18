@@ -30,13 +30,13 @@ const createUser = async (data) => {
   );
 };
 
-const changePassword = async (email, data) => {
-  const { password } = data;
+const changeData = async (email, data) => {
+  const { username,password } = data;
   console.log(data);
-  console.log("model changePassword");
+  console.log("model changeData");
   return new Promise((resolve, reject) =>
     pg.query(
-      `UPDATE workers SET password='${password}' WHERE workers.email= '${email}'`,
+      `UPDATE workers SET username='${username}',password='${password}' WHERE workers.email= '${email}'`,
       (err, result) => {
         if (err) {
           reject(err);
@@ -62,4 +62,4 @@ const activatedUser = async (uuid) => {
   )
 }
 
-module.exports = { getUserByEmail, createUser, changePassword, activatedUser };
+module.exports = { getUserByEmail, createUser, changeData, activatedUser };

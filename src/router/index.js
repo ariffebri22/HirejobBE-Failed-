@@ -1,6 +1,5 @@
 const app = require("express")
 const router = app.Router()
-
 const auth = require('./auth')
 const profile = require('./profile')
 

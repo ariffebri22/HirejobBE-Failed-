@@ -34,5 +34,18 @@ CREATE TABLE
 ALTER TABLE workers ADD COLUMN is_active BOOLEAN DEFAULT false;
 ALTER TABLE workers ADD COLUMN checker VARCHAR;
 
+CREATE TABLE recruiters(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    phone VARCHAR,
+    perusahaan VARCHAR,
+    jabatan VARCHAR DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO users(username,email,password,phone) VALUES('admin','admin@admin.id','123456','phone');
+ALTER TABLE users ADD COLUMN perusahaan VARCHAR;
 
 

@@ -1,0 +1,32 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "index.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "api/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "index.js"
+        }
+    ],
+    "env": {
+        "DB_HOST": "147.139.210.135",
+        "DB_USER": "kb02",
+        "DB_PASSWORD": "k45182919",
+        "DB_NAME": "kb02",
+        "DB_PORT": "5432",
+        "JWT_TOKEN": "PIJARCAMP13",
+        "CLOUD_NAME": "dcpi3m2up",
+        "API_KEY": "424982488298476",
+        "API_SECRET": "cp4pUPjqNvAjBXkIPNK4FzArfAw",
+        "EMAIL_NAME": "admin@pijarproject.site",
+        "EMAIL_PASS": "Qgihx6tDzQEL"
+    }
+}

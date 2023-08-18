@@ -118,11 +118,11 @@ const AuthController = {
   },
 
   putData: async (req, res, next) => {
-    let { username, email, password } = req.body;
+    let { username, password } = req.body;
     console.log("req.body");
     console.log(req.body);
 
-    let id = req.payload.id;
+    let email = req.payload.email;
 
     console.log("put data");
     console.log(password);
@@ -131,13 +131,12 @@ const AuthController = {
 
     let data = {
       username: username || req.payload.username,
-      email: email || req.payload.email,
       password: password || req.payload.password,
     };
 
     console.log(data);
 
-    let result = await changeData(id, data);
+    let result = await changeData(email, data);
     console.log(result);
     return res.status(200).json({
       status: 200,

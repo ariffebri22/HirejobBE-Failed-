@@ -48,13 +48,13 @@ const activatedUser = async (uuid) => {
   );
 };
 
-const changeData = async (id, data) => {
-  const { username, email, password } = data;
+const changeData = async (email, data) => {
+  const { username, password } = data;
   console.log(data);
   console.log("model changeData");
   return new Promise((resolve, reject) =>
     Pool.query(
-      `UPDATE recruiters SET username='${username}',email='${email}',password='${password}' WHERE recruiters.id='${id}'`,
+      `UPDATE recruiters SET username='${username}',password='${password}' WHERE recruiters.email='${email}'`,
       (err, result) => {
         if (err) {
           reject(err);

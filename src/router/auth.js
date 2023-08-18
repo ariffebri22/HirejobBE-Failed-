@@ -1,12 +1,14 @@
-const {login,register,verify} = require("../controller/AuthController")
-const express = require('express');
+const { login, register, verify, putData } = require("../controller/AuthController");
+const express = require("express");
 const { Router } = require("express");
-const router = express.Router()
+const { Protect } = require("../middleware/Protect");
+const router = express.Router();
 
-router.post('/login',login)
-router.post('/register',register)
+router.post("/login", login);
+router.post("/register", register);
+router.put("/changedata", Protect, putData);
 
 //email
-// router.get('/verify/:id',verify)
+router.get("/verify/:id", verify);
 
 module.exports = router;

@@ -130,16 +130,14 @@ const AuthController = {
     console.log(req.body);
 
     let email = req.payload.email;
-    let dataWorkerId = await getUserByEmail(email);
 
     console.log("put data");
-    console.log(dataWorkerId.rows[0]);
 
     password = await argon2.hash(password);
 
     let data = {
-      username: username || dataWorkerId.rows[0].username,
-      password: password || dataWorkerId.rows[0].password,
+      username: username || req.payload.username,
+      password: password || req.payload.password,
     };
 
     let result = await changeData(email, data);

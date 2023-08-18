@@ -33,10 +33,11 @@ const createUser = async (data) => {
 const changeData = async (email, data) => {
   const { username,password } = data;
   console.log(data);
+  console.log(email)
   console.log("model changeData");
   return new Promise((resolve, reject) =>
     pg.query(
-      `UPDATE workers SET username='${username}',password='${password}' WHERE workers.email= '${email}'`,
+      `UPDATE workers SET username='${username}', password='${password}' WHERE workers.email='${email}'`,
       (err, result) => {
         if (err) {
           reject(err);

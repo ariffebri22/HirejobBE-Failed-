@@ -1,10 +1,10 @@
 const { createUser ,getUsersByEmail,activatedUser, changePassword} = require('../model/UsersModel')
 const argon2 = require('argon2');
-const {GenerateToken} = require('./../helper/GenereteToken');
+const {GenerateToken} = require('../helper/GenereteToken');
 
 //email
-// const { v4: uuidv4 } = require("uuid");
-// const Email = require("./../midleware/Email");
+const { v4: uuidv4 } = require("uuid");
+const Email = require("../middleware/email");
 
 const AuthController = {
     register: async (req, res, next) => {
@@ -21,15 +21,15 @@ const AuthController = {
             return res.status(404).json({ "status": 404, "message": "email, password dan username harus diisi dengan benar" })
         }
 
-        // let user = await getUsersByEmail(email)
+        let user = await getUsersByEmail(email)
 
-        // if (user.rows[0]) {
-        //     return res.status(404).json({ "status": 404, "message": "email sudah terdaftar, silahkan login" })
-        // }
+        if (user.rows[0]) {
+            return res.status(404).json({ "status": 404, "message": "email sudah terdaftar, silahkan login" })
+        }
         
-        //email
-        // let uuid = uuidv4();
-        // console.log("uuid", uuid);
+        // email
+        let uuid = uuidv4();
+        console.log("uuid", uuid);
         //
 
         password = await argon2.hash(password);
@@ -37,7 +37,7 @@ const AuthController = {
         let dataUser = {
             email, username,
             password,
-            phone,jabatan,perusahaan
+            phone,jabatan,perusahaan, uuid
 
         }
 
@@ -50,11 +50,11 @@ const AuthController = {
         }
 
 //email
-// let url = `${process.env.BASE_URL}/users/verify/${uuid}`;
-//     let sendEmail = Email(email, url, username);
+let url = `${process.env.BASE_URL}/auth/verify/${uuid}`;
+    let sendEmail = Email(email, url, username);
 
-//     console.log("sendEmail", sendEmail);
-//     console.log(sendEmail);
+    console.log("sendEmail", sendEmail);
+    console.log(sendEmail);
 //
 
         return res.status(200).json({ "status": 200, "message": "register user berhasil" })
@@ -123,16 +123,16 @@ const AuthController = {
       },
 
     //email
-    // verify: async (req, res, next) => {
-    //     const { id } = req.params;
-    //     let result = await activatedUser(id);
-    //     console.log("result");
-    //     console.log(result);
-    //     if (result) {
-    //       return res.status(200).json({ status: 200, message: "verify success silakan login" });
-    //     }
-    //     return res.status(404).json({ status: 404, message: "verify gagal harap coba lagi" });
-    //   }
+    verify: async (req, res, next) => {
+        const { id } = req.params;
+        let result = await activatedUser(id);
+        console.log("result");
+        console.log(result);
+        if (result) {
+          return res.status(200).json({ status: 200, message: "verify success silakan login" });
+        }
+        return res.status(404).json({ status: 404, message: "verify gagal harap coba lagi" });
+      }
 }
 
 module.exports = AuthController

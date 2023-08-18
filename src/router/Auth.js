@@ -1,4 +1,4 @@
-const {login,register,/*verify,*/ changeData} = require("../controller/AuthController")
+const {login,register, verify, changeData} = require("../controller/authController")
 const express = require('express');
 const { Router } = require("express");
 const { Protect } = require("../middleware/Protect")
@@ -9,6 +9,6 @@ router.post('/register',register)
 router.put('/changepassword',Protect,changeData)
 
 //email
-// router.get('/verify/:id',verify)
+router.get('/verify/:id',verify)
 
 module.exports = router;
